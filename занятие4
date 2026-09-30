@@ -1,0 +1,97 @@
+# game.py — тренировочный бой (этап 4)
+
+print("ПОДЗЕМЕЛЬЕ: ТИХИЙ КОЛОДЕЦ")
+print()
+
+name = input("Как зовут героя?\n")
+print(f"Добро пожаловать, {name}!")
+print("Ты входишь в подземелье. Здесь темно и пахнет сыростью.")
+print()
+
+# Настройка героя
+print("Настройка героя.")
+print("Здоровье, сила, ловкость, выносливость – по одному числу в строке:")
+
+health = int(input())
+strength = int(input())
+agility = int(input())
+stamina = int(input())
+
+damage = strength * 2 + agility * 1.3
+crit_damage = damage * 2
+energy = stamina * 3 + 2
+
+print()
+print("Характеристики героя:")
+print(f"Здоровье: {health}")
+print(f"Сила: {strength}")
+print(f"Ловкость: {agility}")
+print(f"Выносливость: {stamina}")
+print(f"Урон героя: {damage:.1f}")
+print(f"Критический урон: {crit_damage:.1f}")
+print(f"Запас сил: {energy}")
+print()
+
+while True:
+    print("Что делаешь?")
+    print("1 – осмотреться")
+    print("2 – идти вперёд")
+    print("3 – отдохнуть")
+    print("4 – прислушаться")
+    print("5 – зажечь факел")
+    print("6 – тренировка")
+
+    action = input()
+
+    match action:
+        case "1":
+            print("Ты оглядываешься. Каменные стены, мокрый пол, где-то капает вода.")
+        case "2":
+            print("Ты идёшь вперёд по тёмному коридору.")
+            if energy >= 1:
+                energy -= 1
+        case "3":
+            print("Ты отдыхаешь и восстанавливаешь силы.")
+            energy = stamina * 3 + 2
+        case "4":
+            print("Ты прислушиваешься. Кажется, где-то далеко слышны шаги.")
+        case "5":
+            print("Ты зажигаешь факел. Стало светлее.")
+        case "6":
+            strikes = 6
+            stamina_cost = 1
+            crit_every = 3
+
+            print("Вы подходите к тренировочному чучелу.")
+            print("Оно стоит здесь с тех пор, как сюда приходил последний искатель.")
+            print()
+            print(f"Наносите {strikes} ударов.")
+
+            total_damage = 0.0
+            crit_count = 0
+
+            for i in range(1, strikes + 1):
+                if i % crit_every == 0:
+                    hit = crit_damage
+                    crit_count += 1
+                    print(f"Удар {i}: {hit:.1f} – критический!")
+                else:
+                    hit = damage
+                    print(f"Удар {i}: {hit:.1f} урона")
+                total_damage += hit
+
+            energy -= stamina_cost
+
+            print()
+            print(f"Итог: {strikes} ударов, критических ударов: {crit_count}.")
+            print(f"Общий урон: {total_damage:.1f}")
+            print(f"Средний урон: {total_damage / strikes:.1f}")
+            print(f"Здоровье: {health} Запас сил: {energy}")
+        case _:
+            print("Такого действия нет.")
+
+    print()
+
+    if action == "9":
+        print(f"Удачи, {name}!")
+        break
